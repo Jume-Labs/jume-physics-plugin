@@ -1,0 +1,31 @@
+{
+  "name": "@jume-labs/jume-physics-plugin",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint src"
+  },
+  "keywords": [],
+  "author": "Codescapade",
+  "license": "MIT",
+  "devDependencies": {
+    "@jume-labs/eslint-config": "^1.0.0",
+    "@jume-labs/prettier-config": "^1.0.1",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@jume-labs/jume-engine": "file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz"
+  }
+}

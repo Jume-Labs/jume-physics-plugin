@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "@jume-labs/eslint-config"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "root": true
+}
