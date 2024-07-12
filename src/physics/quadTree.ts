@@ -1,7 +1,7 @@
 import { Rectangle, Vec2 } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody';
-import { RayHitList } from './rayHit';
+import { CBasicBody } from '../components/cBasicBody.js';
+import { RayHitList } from './rayHit.js';
 
 const MAX_BODIES = 6;
 

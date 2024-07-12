@@ -14,8 +14,10 @@
   "keywords": [],
   "author": "Codescapade",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@jume-labs/eslint-config": "^1.0.0",
+    "@jume-labs/jume-engine": "link:../jume-engine",
     "@jume-labs/prettier-config": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
@@ -25,7 +27,7 @@
     "prettier": "^3.3.2",
     "typescript": "^5.5.3"
   },
-  "dependencies": {
-    "@jume-labs/jume-engine": "file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz"
+  "peerDependencies": {
+    "@jume-labs/jume-engine": "link:../jume-engine"
   }
 }

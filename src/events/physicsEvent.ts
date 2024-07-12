@@ -1,6 +1,6 @@
 import { Event, EventType } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody';
+import { CBasicBody } from '../components/cBasicBody.js';
 
 export class PhysicsEvent extends Event {
   static readonly TRIGGER_START = new EventType(PhysicsEvent, 'jume_physics_trigger_start');

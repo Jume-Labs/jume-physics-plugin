@@ -1,6 +1,6 @@
 import { distance as mathDistance, removeByValue } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody';
+import { CBasicBody } from '../components/cBasicBody.js';
 
 export class RayHit {
   distance: number;

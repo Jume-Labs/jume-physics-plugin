@@ -1,6 +1,6 @@
 import { Component, Rectangle, Vec2 } from '@jume-labs/jume-engine';
 
-import { Collide, CollisionFilter, Touching } from '../physics/interactionTypes';
+import { Collide, CollisionFilter, Touching } from '../physics/interactionTypes.js';
 
 export type BodyType = 'dynamic' | 'kinematic' | 'static';
 

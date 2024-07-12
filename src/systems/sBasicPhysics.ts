@@ -15,11 +15,11 @@ import {
   View,
 } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody';
-import { PhysicsEvent } from '../events/physicsEvent';
-import { Collide } from '../physics/interactionTypes';
-import { QuadTree } from '../physics/quadTree';
-import { RayHitList } from '../physics/rayHit';
+import { CBasicBody } from '../components/cBasicBody.js';
+import { PhysicsEvent } from '../events/physicsEvent.js';
+import { Collide } from '../physics/interactionTypes.js';
+import { QuadTree } from '../physics/quadTree.js';
+import { RayHitList } from '../physics/rayHit.js';
 
 export interface SBasicPhysicsOptions {
   x?: number;
@@ -70,7 +70,7 @@ export class SBasicPhysics extends System {
   private debugRays: DebugRay[] = [];
 
   @inject
-  private readonly eventSystem!: EventManager;
+  private readonly eventManager!: EventManager;
 
   @inject
   private readonly view!: View;
@@ -199,7 +199,7 @@ export class SBasicPhysics extends System {
     }
 
     while (this.interactionEvents.length > 0) {
-      this.eventSystem.send(this.interactionEvents.pop()!);
+      this.eventManager.send(this.interactionEvents.pop()!);
     }
   }
 

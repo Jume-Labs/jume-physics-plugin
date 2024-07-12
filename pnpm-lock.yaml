@@ -4,15 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@jume-labs/jume-engine':
-    specifier: file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz
-    version: file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz
-
 devDependencies:
   '@jume-labs/eslint-config':
     specifier: ^1.0.0
     version: 1.0.0(@typescript-eslint/eslint-plugin@7.16.0)(@typescript-eslint/parser@7.16.0)(eslint-plugin-import@2.29.1)(eslint-plugin-simple-import-sort@12.1.1)(eslint@8.56.0)(typescript@5.5.3)
+  '@jume-labs/jume-engine':
+    specifier: link:../jume-engine
+    version: link:../jume-engine
   '@jume-labs/prettier-config':
     specifier: ^1.0.1
     version: 1.0.1(prettier@3.3.2)
@@ -1793,9 +1791,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz:
-    resolution: {integrity: sha512-dXTp/p7/mbW3yZox2Dl/4R3wxWQmBw7Yry3ZDH91iSUm6j6slfT4vdRES5T0+IGqDb6Qtj05IpuazPt+PVSx/g==, tarball: file:../jume-engine/jume-labs-jume-engine-0.1.0.tgz}
-    name: '@jume-labs/jume-engine'
-    version: 0.1.0
-    dev: false
