@@ -1,6 +1,6 @@
 import { Rectangle, Vec2 } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody.js';
+import { CPhysicsBody } from '../components/cPhysicsBody.js';
 import { RayHitList } from './rayHit.js';
 
 const MAX_BODIES = 6;
@@ -12,7 +12,7 @@ export class QuadNode {
 
   private depth: number;
 
-  private readonly bodies: CBasicBody[] = [];
+  private readonly bodies: CPhysicsBody[] = [];
 
   private readonly nodes: QuadNode[] = [];
 
@@ -64,7 +64,7 @@ export class QuadNode {
     list.push(this.bounds);
   }
 
-  insert(body: CBasicBody): void {
+  insert(body: CPhysicsBody): void {
     if (this.nodes.length > 0) {
       const index = this.getIndex(body.bounds);
       if (index === -1) {
@@ -99,7 +99,7 @@ export class QuadNode {
     }
   }
 
-  getBodyList(body: CBasicBody, list: CBasicBody[]): void {
+  getBodyList(body: CPhysicsBody, list: CPhysicsBody[]): void {
     const index = this.getIndex(body.bounds);
     if (this.nodes.length > 0) {
       if (index === -1) {
@@ -220,11 +220,11 @@ export class QuadTree {
     this.root = new QuadNode(1, x, y, width, height);
   }
 
-  insert(body: CBasicBody): void {
+  insert(body: CPhysicsBody): void {
     this.root.insert(body);
   }
 
-  getBodyList(body: CBasicBody, out?: CBasicBody[]): CBasicBody[] {
+  getBodyList(body: CPhysicsBody, out?: CPhysicsBody[]): CPhysicsBody[] {
     if (!out) {
       out = [];
     }

@@ -1,6 +1,6 @@
 import { Event, EventType } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody.js';
+import { CPhysicsBody } from '../components/cPhysicsBody.js';
 
 export class PhysicsEvent extends Event {
   static readonly TRIGGER_START = new EventType(PhysicsEvent, 'jume_physics_trigger_start');
@@ -13,13 +13,13 @@ export class PhysicsEvent extends Event {
   static readonly COLLISION_STAY = new EventType(PhysicsEvent, 'jume_physics_collision_stay');
   static readonly COLLISION_END = new EventType(PhysicsEvent, 'jume_physics_collision_end');
 
-  body1!: CBasicBody;
+  body1!: CPhysicsBody;
 
-  body2!: CBasicBody;
+  body2!: CPhysicsBody;
 
   private static readonly POOL: PhysicsEvent[] = [];
 
-  static get(type: EventType<PhysicsEvent>, body1: CBasicBody, body2: CBasicBody): PhysicsEvent {
+  static get(type: EventType<PhysicsEvent>, body1: CPhysicsBody, body2: CPhysicsBody): PhysicsEvent {
     const event = PhysicsEvent.POOL.length > 0 ? PhysicsEvent.POOL.pop()! : new PhysicsEvent();
     event._name = type.name;
     event.body1 = body1;

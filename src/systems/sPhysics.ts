@@ -1,4 +1,5 @@
 import {
+  BaseSystemProps,
   Camera,
   clamp,
   Color,
@@ -15,13 +16,13 @@ import {
   View,
 } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody.js';
+import { CPhysicsBody } from '../components/cPhysicsBody.js';
 import { PhysicsEvent } from '../events/physicsEvent.js';
 import { Collide } from '../physics/interactionTypes.js';
 import { QuadTree } from '../physics/quadTree.js';
 import { RayHitList } from '../physics/rayHit.js';
 
-export interface SBasicPhysicsOptions {
+export interface SPhysicsProps {
   x?: number;
   y?: number;
   width?: number;
@@ -46,7 +47,7 @@ const STATIC_BODY_COLOR = new Color(0, 0.85, 0);
 const RAY_COLOR = new Color(1, 0.5, 0);
 const RAY_HIT_COLOR = new Color(1, 1, 0);
 
-export class SBasicPhysics extends System {
+export class SPhysics extends System {
   drawRays = true;
 
   debugLineWidth = 1;
@@ -59,7 +60,7 @@ export class SBasicPhysics extends System {
 
   private readonly entities: Entity[] = [];
 
-  private treeList: CBasicBody[] = [];
+  private treeList: CPhysicsBody[] = [];
 
   private interactionEvents: PhysicsEvent[] = [];
 
@@ -75,29 +76,26 @@ export class SBasicPhysics extends System {
   @inject
   private readonly view!: View;
 
-  init(options?: SBasicPhysicsOptions): SBasicPhysics {
-    if (options) {
-      if (options.gravity) {
-        this.gravity.set(options.gravity.x, options.gravity.y);
-      }
+  constructor(base: BaseSystemProps, props: SPhysicsProps) {
+    super(base);
 
-      if (options.iterations) {
-        this.iterations = options.iterations;
-      }
-
-      this.bounds.set(
-        options.x ?? 0,
-        options.y ?? 0,
-        options.width ?? this.view.viewWidth,
-        options.height ?? this.view.viewHeight
-      );
-      this.tree = new QuadTree(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
-    } else {
-      this.bounds.set(0, 0, this.view.viewWidth, this.view.viewHeight);
-      this.tree = new QuadTree(0, 0, this.view.viewWidth, this.view.viewHeight);
+    if (props.gravity) {
+      this.gravity.set(props.gravity.x, props.gravity.y);
     }
 
-    this.registerList(this.entities, [CBasicBody, CTransform]);
+    if (props.iterations) {
+      this.iterations = props.iterations;
+    }
+
+    this.bounds.set(
+      props.x ?? 0,
+      props.y ?? 0,
+      props.width ?? this.view.viewWidth,
+      props.height ?? this.view.viewHeight
+    );
+    this.tree = new QuadTree(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+
+    this.registerList(this.entities, [CPhysicsBody, CTransform]);
     this.active = true;
 
     return this;
@@ -119,7 +117,7 @@ export class SBasicPhysics extends System {
         continue;
       }
 
-      const body = entity.getComponent(CBasicBody);
+      const body = entity.getComponent(CPhysicsBody);
       this.updatePastInteractions(body);
       body.wasTouching.value = body.touching.value;
       this.updateBodyBounds(entity);
@@ -163,7 +161,7 @@ export class SBasicPhysics extends System {
 
     for (let i = 0; i < this.iterations; i++) {
       for (const entity of this.entities) {
-        const body = entity.getComponent(CBasicBody);
+        const body = entity.getComponent(CPhysicsBody);
         if (body.active) {
           while (this.treeList.length > 0) {
             this.treeList.pop();
@@ -182,7 +180,7 @@ export class SBasicPhysics extends System {
     }
 
     for (const entity of this.entities) {
-      const body = entity.getComponent(CBasicBody);
+      const body = entity.getComponent(CPhysicsBody);
       if (body.active) {
         for (const body2 of body.wasCollidingWith) {
           if (!body.collidingWith.includes(body2)) {
@@ -228,7 +226,7 @@ export class SBasicPhysics extends System {
       }
 
       for (const entity of this.entities) {
-        const body = entity.getComponent(CBasicBody);
+        const body = entity.getComponent(CPhysicsBody);
         if (!body.active) {
           continue;
         }
@@ -310,7 +308,7 @@ export class SBasicPhysics extends System {
     this.tree.updateBounds(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
   }
 
-  private updatePastInteractions(body: CBasicBody): void {
+  private updatePastInteractions(body: CPhysicsBody): void {
     while (body.wasCollidingWith.length > 0) {
       body.wasCollidingWith.pop();
     }
@@ -328,7 +326,7 @@ export class SBasicPhysics extends System {
     }
   }
 
-  private checkCollision(body1: CBasicBody, body2: CBasicBody): void {
+  private checkCollision(body1: CPhysicsBody, body2: CPhysicsBody): void {
     if (body1.mask.has(body2.group.value) && body2.mask.has(body1.group.value) && this.intersects(body1, body2)) {
       if (body1.bodyType === 'dynamic' && !body1.isTrigger && !body2.isTrigger) {
         this.separate(body1, body2);
@@ -377,7 +375,7 @@ export class SBasicPhysics extends System {
     }
   }
 
-  private hasInteraction(type: EventType<PhysicsEvent>, body1: CBasicBody, body2: CBasicBody): boolean {
+  private hasInteraction(type: EventType<PhysicsEvent>, body1: CPhysicsBody, body2: CPhysicsBody): boolean {
     for (const event of this.interactionEvents) {
       if (event.name === type.name && event.body1 === body1 && event.body2 === body2) {
         return true;
@@ -387,7 +385,7 @@ export class SBasicPhysics extends System {
     return false;
   }
 
-  private separate(body1: CBasicBody, body2: CBasicBody): boolean {
+  private separate(body1: CPhysicsBody, body2: CPhysicsBody): boolean {
     if (Math.abs(body1.velocity.x) > Math.abs(body1.velocity.y)) {
       return this.separateX(body1, body2) || this.separateY(body1, body2);
     } else {
@@ -395,7 +393,7 @@ export class SBasicPhysics extends System {
     }
   }
 
-  private separateX(body1: CBasicBody, body2: CBasicBody): boolean {
+  private separateX(body1: CPhysicsBody, body2: CPhysicsBody): boolean {
     const bounds1 = body1.bounds;
     const bounds2 = body2.bounds;
 
@@ -457,7 +455,7 @@ export class SBasicPhysics extends System {
     return true;
   }
 
-  private separateY(body1: CBasicBody, body2: CBasicBody): boolean {
+  private separateY(body1: CPhysicsBody, body2: CPhysicsBody): boolean {
     const bounds1 = body1.bounds;
     const bounds2 = body2.bounds;
 
@@ -519,12 +517,12 @@ export class SBasicPhysics extends System {
     return true;
   }
 
-  private intersects(body1: CBasicBody, body2: CBasicBody): boolean {
+  private intersects(body1: CPhysicsBody, body2: CPhysicsBody): boolean {
     return body1.bounds.intersects(body2.bounds);
   }
 
   private updateBodyBounds(entity: Entity): void {
-    const body = entity.getComponent(CBasicBody);
+    const body = entity.getComponent(CPhysicsBody);
     const transform = entity.getComponent(CTransform);
 
     const worldPos = transform.getWorldPosition();
@@ -537,7 +535,7 @@ export class SBasicPhysics extends System {
   }
 
   private updateTransform(entity: Entity): void {
-    const body = entity.getComponent(CBasicBody);
+    const body = entity.getComponent(CPhysicsBody);
     if (body.bodyType === 'static') {
       return;
     }

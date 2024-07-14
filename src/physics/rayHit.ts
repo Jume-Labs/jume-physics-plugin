@@ -1,6 +1,6 @@
 import { distance as mathDistance, removeByValue } from '@jume-labs/jume-engine';
 
-import { CBasicBody } from '../components/cBasicBody.js';
+import { CPhysicsBody } from '../components/cPhysicsBody.js';
 
 export class RayHit {
   distance: number;
@@ -9,11 +9,11 @@ export class RayHit {
 
   y: number;
 
-  body?: CBasicBody;
+  body?: CPhysicsBody;
 
   private static readonly POOL: RayHit[] = [];
 
-  static get(x: number, y: number, originX: number, originY: number, body?: CBasicBody): RayHit {
+  static get(x: number, y: number, originX: number, originY: number, body?: CPhysicsBody): RayHit {
     if (RayHit.POOL.length > 0) {
       const hit = RayHit.POOL.pop()!;
       hit.x = x;
@@ -27,7 +27,7 @@ export class RayHit {
     }
   }
 
-  constructor(x: number, y: number, originX: number, originY: number, body?: CBasicBody) {
+  constructor(x: number, y: number, originX: number, originY: number, body?: CPhysicsBody) {
     this.x = x;
     this.y = y;
     this.body = body;
@@ -60,7 +60,7 @@ export class RayHitList {
 
   constructor() {}
 
-  insert(x: number, y: number, originX: number, originY: number, body?: CBasicBody): void {
+  insert(x: number, y: number, originX: number, originY: number, body?: CPhysicsBody): void {
     const hit = RayHit.get(x, y, originX, originY, body);
 
     if (this._hits.length > 0) {
