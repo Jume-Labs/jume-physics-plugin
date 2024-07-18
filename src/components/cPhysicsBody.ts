@@ -2,6 +2,9 @@ import { BaseComponentProps, Component, Rectangle, Vec2 } from '@jume-labs/jume-
 
 import { Collide, CollisionFilter, Touching } from '../physics/interactionTypes.js';
 
+/**
+ * Type of collision body available.
+ */
 export type BodyType = 'dynamic' | 'kinematic' | 'static';
 
 type XY = {
@@ -9,24 +12,98 @@ type XY = {
   y: number;
 };
 
+/**
+ * The setup properties of the CPhysicsBody component.
+ */
 export interface BodyProps {
+  /**
+   * The type of body. Default is 'dynamic'.
+   */
   bodyType?: BodyType;
+
+  /**
+   * Start the body as active. Default is true.
+   */
   active?: boolean;
+
+  /**
+   * Is this a trigger body. Default is false.
+   */
   isTrigger?: boolean;
+
+  /**
+   * The world position of the body in pixels.
+   */
   pos?: XY;
+
+  /**
+   * The width of the body in pixels.
+   */
   width?: number;
+
+  /**
+   * The height of the body in pixels.
+   */
   height?: number;
+
+  /**
+   * The body horizontal and vertical drag.
+   */
   drag?: XY;
+
+  /**
+   * The start velocity.
+   */
   velocity?: XY;
+
+  /**
+   * The maximum limit of the velocity.
+   */
   maxVelocity?: XY;
+
+  /**
+   * The acceleration of the body.
+   */
   acceleration?: XY;
+
+  /**
+   * The body offset from the center.
+   */
   offset?: XY;
+
+  /**
+   * The group to filter on. Defaults to GROUP_01.
+   */
   group?: CollisionFilter;
+
+  /**
+   * The mask to filter on. Defaults to GROUP_01.
+   */
   mask?: CollisionFilter;
+
+  /**
+   * The side this body can collide on. Defaults to ALL.
+   */
   canCollide?: Collide;
+
+  /**
+   * The amount of bounce. (0 - 1).
+   */
   bounce?: number;
+
+  /**
+   * Should this body be moved by the world gravity.
+   */
   useGravity?: boolean;
+
+  /**
+   * Interaction event tags.
+   */
   tags?: string[];
+
+  /**
+   * Any extra data to add to the component if needed.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userData?: any;
 }

@@ -4,9 +4,7 @@ import { CPhysicsBody } from '../components/cPhysicsBody.js';
 
 export class PhysicsEvent extends Event {
   static readonly TRIGGER_START = new EventType(PhysicsEvent, 'jume_physics_trigger_start');
-
   static readonly TRIGGER_STAY = new EventType(PhysicsEvent, 'jume_physics_trigger_stay');
-
   static readonly TRIGGER_END = new EventType(PhysicsEvent, 'jume_physics_trigger_end');
 
   static readonly COLLISION_START = new EventType(PhysicsEvent, 'jume_physics_collision_start');
