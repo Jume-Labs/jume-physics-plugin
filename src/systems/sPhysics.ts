@@ -95,7 +95,7 @@ export class SPhysics extends System {
     );
     this.tree = new QuadTree(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 
-    this.registerList(this.entities, [CPhysicsBody, CTransform]);
+    this.registerList({ entities: this.entities, components: [CPhysicsBody, CTransform] });
     this.active = true;
 
     return this;

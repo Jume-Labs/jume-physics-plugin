@@ -15,7 +15,7 @@ type XY = {
 /**
  * The setup properties of the CPhysicsBody component.
  */
-export interface BodyProps {
+export interface CPhysicsBodyProps {
   /**
    * The type of body. Default is 'dynamic'.
    */
@@ -104,8 +104,7 @@ export interface BodyProps {
   /**
    * Any extra data to add to the component if needed.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  userData?: any;
+  userData?: unknown;
 }
 
 export class CPhysicsBody extends Component {
@@ -132,7 +131,7 @@ export class CPhysicsBody extends Component {
 
   wasTouching = new Touching(Touching.NONE);
 
-  canCollide = new Collide(Collide.NONE);
+  canCollide = new Collide(Collide.ALL);
 
   bounds = new Rectangle();
 
@@ -148,72 +147,89 @@ export class CPhysicsBody extends Component {
 
   tags: string[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  userData: any;
+  userData: unknown;
 
-  constructor(base: BaseComponentProps, props: BodyProps) {
+  constructor(base: BaseComponentProps, props: CPhysicsBodyProps) {
     super(base);
 
-    if (props.bodyType) {
-      this.bodyType = props.bodyType;
+    const {
+      acceleration,
+      active,
+      bodyType,
+      bounce,
+      canCollide,
+      drag,
+      group,
+      height,
+      isTrigger,
+      mask,
+      maxVelocity,
+      offset,
+      pos,
+      tags,
+      useGravity,
+      userData,
+      width,
+      velocity,
+    } = props;
+
+    if (bodyType) {
+      this.bodyType = bodyType;
     }
 
-    if (props.active) {
-      this.active = props.active;
+    this.active = active !== undefined ? active : true;
+
+    if (isTrigger) {
+      this.isTrigger = isTrigger;
     }
 
-    if (props.isTrigger) {
-      this.isTrigger = props.isTrigger;
+    this.bounds.set(pos?.x ?? 0, pos?.y ?? 0, width ?? 10, height ?? 0);
+
+    if (bounce) {
+      this.bounce = bounce;
     }
 
-    this.bounds.set(props.pos!.x ?? 0, props.pos!.y ?? 0, props.width ?? 10, props.height ?? 0);
-
-    if (props.bounce) {
-      this.bounce = props.bounce;
+    if (useGravity !== undefined) {
+      this.useGravity = useGravity;
     }
 
-    if (props.useGravity !== undefined) {
-      this.useGravity = props.useGravity;
+    if (drag) {
+      this.drag.set(drag.x, drag.y);
     }
 
-    if (props.drag) {
-      this.drag.set(props.drag.x, props.drag.y);
+    if (velocity) {
+      this.velocity.set(velocity.x, velocity.y);
     }
 
-    if (props.velocity) {
-      this.velocity.set(props.velocity.x, props.velocity.y);
+    if (maxVelocity) {
+      this.maxVelocity.set(maxVelocity.x, maxVelocity.y);
     }
 
-    if (props.maxVelocity) {
-      this.maxVelocity.set(props.maxVelocity.x, props.maxVelocity.y);
+    if (acceleration) {
+      this.acceleration.set(acceleration.x, acceleration.y);
     }
 
-    if (props.acceleration) {
-      this.acceleration.set(props.acceleration.x, props.acceleration.y);
+    if (offset) {
+      this.offset.set(offset.x, offset.y);
     }
 
-    if (props.offset) {
-      this.offset.set(props.offset.x, props.offset.y);
+    if (group) {
+      this.group = group;
     }
 
-    if (props.group) {
-      this.group = props.group;
+    if (mask) {
+      this.mask = mask;
     }
 
-    if (props.mask) {
-      this.mask = props.mask;
+    if (canCollide) {
+      this.canCollide = canCollide;
     }
 
-    if (props.canCollide) {
-      this.canCollide = props.canCollide;
+    if (tags) {
+      this.tags = tags;
     }
 
-    if (props.tags) {
-      this.tags = props.tags;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.userData = props.userData;
+    this.userData = userData;
 
     return this;
   }

@@ -10,7 +10,8 @@
   "scripts": {
     "prepare": "tsc -p tsconfig.build.json",
     "build": "tsc -p tsconfig.build.json",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prettier": "prettier src --check"
   },
   "keywords": [],
   "author": "Codescapade",
@@ -18,7 +19,6 @@
   "type": "module",
   "devDependencies": {
     "@jume-labs/eslint-config": "^1.0.0",
-    "@jume-labs/jume-engine": "link:../jume-engine",
     "@jume-labs/prettier-config": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
@@ -29,6 +29,6 @@
     "typescript": "^5.5.3"
   },
   "peerDependencies": {
-    "@jume-labs/jume-engine": "link:../jume-engine"
+    "@jume-labs/jume-engine": "github:jume-labs/jume-engine"
   }
 }

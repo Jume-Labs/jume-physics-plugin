@@ -4,13 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  '@jume-labs/jume-engine':
+    specifier: github:jume-labs/jume-engine
+    version: github.com/jume-labs/jume-engine/da4853c2391aeca5f19cea4a031ea5c2fb184290
+
 devDependencies:
   '@jume-labs/eslint-config':
     specifier: ^1.0.0
     version: 1.0.0(@typescript-eslint/eslint-plugin@7.16.0)(@typescript-eslint/parser@7.16.0)(eslint-plugin-import@2.29.1)(eslint-plugin-simple-import-sort@12.1.1)(eslint@8.56.0)(typescript@5.5.3)
-  '@jume-labs/jume-engine':
-    specifier: link:../jume-engine
-    version: link:../jume-engine
   '@jume-labs/prettier-config':
     specifier: ^1.0.1
     version: 1.0.1(prettier@3.3.2)
@@ -1791,3 +1793,11 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/jume-labs/jume-engine/da4853c2391aeca5f19cea4a031ea5c2fb184290:
+    resolution: {tarball: https://codeload.github.com/jume-labs/jume-engine/tar.gz/da4853c2391aeca5f19cea4a031ea5c2fb184290}
+    name: '@jume-labs/jume-engine'
+    version: 0.1.0
+    prepare: true
+    requiresBuild: true
+    dev: false

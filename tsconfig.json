@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "outDir": "dist",
     "declaration": true,
+    "sourceMap": true,
 
     /* Linting */
     "noImplicitOverride": true,
