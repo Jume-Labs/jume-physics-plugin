@@ -15,7 +15,7 @@ type XY = {
 /**
  * The setup properties of the CPhysicsBody component.
  */
-export interface CPhysicsBodyProps {
+export interface CPhysicsBodyProps extends BaseComponentProps {
   /**
    * The type of body. Default is 'dynamic'.
    */
@@ -149,8 +149,8 @@ export class CPhysicsBody extends Component {
 
   userData: unknown;
 
-  constructor(base: BaseComponentProps, props: CPhysicsBodyProps) {
-    super(base);
+  constructor(props: CPhysicsBodyProps) {
+    super(props);
 
     const {
       acceleration,

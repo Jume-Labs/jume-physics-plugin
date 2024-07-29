@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@jume-labs/jume-engine':
     specifier: github:jume-labs/jume-engine
-    version: github.com/jume-labs/jume-engine/34fdf815609d530532187fc7458c6885efdacaaa
+    version: github.com/jume-labs/jume-engine/44e25116a732b0e28886b6128df89f0b73ae3d34
 
 devDependencies:
   '@jume-labs/eslint-config':
@@ -1794,8 +1794,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/jume-labs/jume-engine/34fdf815609d530532187fc7458c6885efdacaaa:
-    resolution: {tarball: https://codeload.github.com/jume-labs/jume-engine/tar.gz/34fdf815609d530532187fc7458c6885efdacaaa}
+  github.com/jume-labs/jume-engine/44e25116a732b0e28886b6128df89f0b73ae3d34:
+    resolution: {tarball: https://codeload.github.com/jume-labs/jume-engine/tar.gz/44e25116a732b0e28886b6128df89f0b73ae3d34}
     name: '@jume-labs/jume-engine'
     version: 0.1.0
     prepare: true

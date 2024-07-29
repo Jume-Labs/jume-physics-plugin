@@ -22,7 +22,7 @@ import { Collide } from '../physics/interactionTypes.js';
 import { QuadTree } from '../physics/quadTree.js';
 import { RayHitList } from '../physics/rayHit.js';
 
-export interface SPhysicsProps {
+export interface SPhysicsProps extends BaseSystemProps {
   x?: number;
   y?: number;
   width?: number;
@@ -76,23 +76,20 @@ export class SPhysics extends System {
   @inject
   private readonly view!: View;
 
-  constructor(base: BaseSystemProps, props: SPhysicsProps) {
-    super(base);
+  constructor(props: SPhysicsProps) {
+    super(props);
 
-    if (props.gravity) {
-      this.gravity.set(props.gravity.x, props.gravity.y);
+    const { x, y, width, height, gravity, iterations } = props;
+
+    if (gravity) {
+      this.gravity.set(gravity.x, gravity.y);
     }
 
-    if (props.iterations) {
-      this.iterations = props.iterations;
+    if (iterations) {
+      this.iterations = iterations;
     }
 
-    this.bounds.set(
-      props.x ?? 0,
-      props.y ?? 0,
-      props.width ?? this.view.viewWidth,
-      props.height ?? this.view.viewHeight
-    );
+    this.bounds.set(x ?? 0, y ?? 0, width ?? this.view.viewWidth, height ?? this.view.viewHeight);
     this.tree = new QuadTree(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 
     this.registerList({ entities: this.entities, components: [CPhysicsBody, CTransform] });
@@ -184,13 +181,13 @@ export class SPhysics extends System {
       if (body.active) {
         for (const body2 of body.wasCollidingWith) {
           if (!body.collidingWith.includes(body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.COLLISION_END, body, body2));
+            this.interactionEvents.push(PhysicsEvent.get('collision end', body, body2));
           }
         }
 
         for (const body2 of body.wasTriggeredBy) {
           if (!body.triggeredBy.includes(body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.TRIGGER_END, body, body2));
+            this.interactionEvents.push(PhysicsEvent.get('trigger end', body, body2));
           }
         }
       }
@@ -332,11 +329,11 @@ export class SPhysics extends System {
         this.separate(body1, body2);
         if (!body1.wasCollidingWith.includes(body2)) {
           if (!this.hasInteraction(PhysicsEvent.COLLISION_START, body1, body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.COLLISION_START, body1, body2));
+            this.interactionEvents.push(PhysicsEvent.get('collision start', body1, body2));
           }
         } else {
           if (!this.hasInteraction(PhysicsEvent.COLLISION_STAY, body1, body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.COLLISION_STAY, body1, body2));
+            this.interactionEvents.push(PhysicsEvent.get('collision stay', body1, body2));
           }
         }
 
@@ -346,11 +343,11 @@ export class SPhysics extends System {
       } else if (body1.isTrigger && !body2.isTrigger) {
         if (!body1.wasTriggeredBy.includes(body2)) {
           if (!this.hasInteraction(PhysicsEvent.TRIGGER_START, body1, body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.TRIGGER_START, body1, body2));
+            this.interactionEvents.push(PhysicsEvent.get('trigger start', body1, body2));
           }
         } else {
           if (!this.hasInteraction(PhysicsEvent.TRIGGER_STAY, body1, body2)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.TRIGGER_STAY, body1, body2));
+            this.interactionEvents.push(PhysicsEvent.get('trigger stay', body1, body2));
           }
         }
 
@@ -360,11 +357,11 @@ export class SPhysics extends System {
       } else if (body2.isTrigger && !body1.isTrigger) {
         if (!body2.wasTriggeredBy.includes(body1)) {
           if (!this.hasInteraction(PhysicsEvent.TRIGGER_START, body2, body1)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.TRIGGER_START, body2, body1));
+            this.interactionEvents.push(PhysicsEvent.get('trigger start', body2, body1));
           }
         } else {
           if (!this.hasInteraction(PhysicsEvent.TRIGGER_STAY, body2, body1)) {
-            this.interactionEvents.push(PhysicsEvent.get(PhysicsEvent.TRIGGER_STAY, body2, body1));
+            this.interactionEvents.push(PhysicsEvent.get('trigger stay', body2, body1));
           }
         }
 
